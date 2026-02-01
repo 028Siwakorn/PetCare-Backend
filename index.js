@@ -12,7 +12,19 @@ const PORT = process.env.PORT;
 const BASE_URL = process.env.BASE_URL;
 const DB_URL = process.env.DB_URL;
 
-app.use(cors({ origin: BASE_URL, credentials: true }));
+// CORS: รองรับ origin ที่มี/ไม่มี slash ท้าย (เบราว์เซอร์ส่ง http://localhost:5173 ไม่มี slash)
+const allowedOrigin = BASE_URL ? BASE_URL.replace(/\/$/, "") : null;
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      if (!origin || !allowedOrigin) return cb(null, true);
+      const normalized = origin.replace(/\/$/, "");
+      if (normalized === allowedOrigin) return cb(null, true);
+      cb(null, false);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {

@@ -59,7 +59,7 @@ exports.login = async (req, res) => {
         .send({ message: "Server configuration error: SECRET is not set" });
     }
 
-    // Login successfully -> generate token
+    // Login successfully -> generate token (ส่ง id เป็น string ให้ Frontend ใช้ได้)
     jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
       if (err) {
         return res
@@ -68,7 +68,7 @@ exports.login = async (req, res) => {
       }
       res.send({
         message: "User logged in successfully!",
-        id: userDoc._id,
+        id: String(userDoc._id),
         username,
         accessToken: token,
       });
