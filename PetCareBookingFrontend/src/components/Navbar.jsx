@@ -21,6 +21,7 @@ export default function Navbar() {
     { to: "/", label: "หน้าแรก" },
     { to: "/booking", label: "จองบริการ" },
     { to: "/history", label: "ประวัติการจอง" },
+    { to: "/add-pet", label: "เพิ่มสัตว์เลี้ยง" },
   ];
 
   return (

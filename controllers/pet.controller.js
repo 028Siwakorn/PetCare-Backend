@@ -1,11 +1,15 @@
 const PetModel = require("../models/pet");
 const mongoose = require("mongoose");
 
-// Create a new pet
+// Create a new pet (รองรับ multipart: รูปจาก req.file.firebaseURL หรือ image URL จาก req.body)
 exports.createPet = async (req, res) => {
   try {
-    const { name, breed, image, owner } = req.body;
-    let { age } = req.body;
+    const { name, breed, owner } = req.body;
+    let { age, image } = req.body;
+
+    if (req.file && req.file.firebaseURL) {
+      image = req.file.firebaseURL;
+    }
 
     if (!name || age === undefined || !breed || !owner) {
       return res.status(400).json({
@@ -24,7 +28,7 @@ exports.createPet = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid owner ID format" });
     }
 
-    const pet = await PetModel.create({ name, age, breed, image, owner });
+    const pet = await PetModel.create({ name, age, breed, image: image || undefined, owner });
     res.status(201).json({ success: true, message: "Pet created", data: pet });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error creating pet", error: error.message });

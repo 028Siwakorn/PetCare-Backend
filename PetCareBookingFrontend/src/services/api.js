@@ -32,6 +32,16 @@ export const deleteBooking = (id) => api.delete(`/bookings/${id}`).then((r) => r
 // Pets (รายการสัตว์เลี้ยงของ user)
 export const getPets = (ownerId) =>
   api.get("/pets", { params: { owner: ownerId } }).then((r) => r.data);
+// createPet รับ FormData (แนบไฟล์) หรือ object (ส่งแบบ JSON)
+export const createPet = (bodyOrFormData) => {
+  if (bodyOrFormData instanceof FormData) {
+    const url = `${BASE_URL}/api/v1/pets/create`;
+    const token = localStorage.getItem("accessToken");
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    return axios.post(url, bodyOrFormData, { headers }).then((r) => r.data);
+  }
+  return api.post("/pets/create", bodyOrFormData).then((r) => r.data);
+};
 
 // User auth
 export const register = (username, password) =>

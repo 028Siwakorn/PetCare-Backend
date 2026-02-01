@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getUserBookings, updateBooking } from "../services/api";
+import { getUserBookings, deleteBooking } from "../services/api";
 import BookingCard from "../components/BookingCard";
 
 export default function HistoryPage() {
@@ -30,14 +30,12 @@ export default function HistoryPage() {
   }, [user?.id]);
 
   const handleCancel = (id) => {
-    if (!window.confirm("ต้องการยกเลิกการจองนี้ใช่หรือไม่?")) return;
+    if (!window.confirm("ต้องการยกเลิกและลบการจองนี้ออกจากระบบใช่หรือไม่?")) return;
     setCancellingId(id);
-    cancelBooking(id)
+    deleteBooking(id)
       .then((res) => {
         if (res.success) {
-          setBookings((prev) =>
-            prev.map((b) => (b._id === id ? { ...b, status: "cancelled" } : b))
-          );
+          setBookings((prev) => prev.filter((b) => b._id !== id));
         }
       })
       .catch(() => {})

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Input from "./Input";
 import Button from "./Button";
 import Card from "./Card";
@@ -141,6 +142,14 @@ export default function BookingForm({
             <label className="label">
               <span className="label-text-alt text-error">{errors.petName}</span>
             </label>
+          )}
+          {currentUser && (
+            <p className="text-sm text-base-content/60 mt-1">
+              ยังไม่มีรายการ?{" "}
+              <Link to="/add-pet" className="link link-primary">
+                เพิ่มสัตว์เลี้ยง
+              </Link>
+            </p>
           )}
         </div>
         <Input

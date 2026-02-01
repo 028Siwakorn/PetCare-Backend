@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import BookingPage from "./pages/BookingPage";
 import HistoryPage from "./pages/HistoryPage";
+import AddPetPage from "./pages/AddPetPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/booking" element={<BookingPage />} />
             <Route path="/history" element={<HistoryPage />} />
+            <Route path="/add-pet" element={<AddPetPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
           </Routes>
