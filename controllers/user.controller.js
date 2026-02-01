@@ -70,6 +70,7 @@ exports.login = async (req, res) => {
         message: "User logged in successfully!",
         id: String(userDoc._id),
         username,
+        role: userDoc.role || "user",
         accessToken: token,
       });
     });

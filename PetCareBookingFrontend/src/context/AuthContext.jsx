@@ -14,7 +14,12 @@ export function AuthProvider({ children }) {
       try {
         const data = JSON.parse(raw);
         if (data.id && data.username && data.accessToken) {
-          setUser({ id: data.id, username: data.username, accessToken: data.accessToken });
+          setUser({
+            id: data.id,
+            username: data.username,
+            accessToken: data.accessToken,
+            role: data.role || "user",
+          });
         }
       } catch {
         localStorage.removeItem(STORAGE_KEY);
@@ -28,6 +33,7 @@ export function AuthProvider({ children }) {
       id: userData.id,
       username: userData.username,
       accessToken: userData.accessToken,
+      role: userData.role || "user",
     };
     setUser(u);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(u));

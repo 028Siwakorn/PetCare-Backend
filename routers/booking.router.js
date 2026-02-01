@@ -15,9 +15,9 @@ router.get("/all", bookingController.getAllBookings);
 // http://localhost:5000/api/v1/bookings/user/:user
 router.get("/user/:user", bookingController.getUserBookings);
 
-// PUT cancel booking
+// PATCH cancel booking
 // http://localhost:5000/api/v1/bookings/:id/cancel
-router.put("/:id/cancel", bookingController.cancelBooking);
+router.patch("/:id/cancel", bookingController.cancelBooking);
 
 // GET booking by ID
 // http://localhost:5000/api/v1/bookings/:id

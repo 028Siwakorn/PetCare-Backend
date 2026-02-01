@@ -29,6 +29,10 @@ export default function HistoryPage() {
       .finally(() => setLoading(false));
   }, [user?.id]);
 
+  const handleEdit = (booking) => {
+    navigate(`/booking/edit/${booking._id}`);
+  };
+
   const handleCancel = (id) => {
     if (!window.confirm("ต้องการยกเลิกและลบการจองนี้ออกจากระบบใช่หรือไม่?")) return;
     setCancellingId(id);
@@ -82,6 +86,7 @@ export default function HistoryPage() {
               <BookingCard
                 key={booking._id}
                 booking={booking}
+                onEdit={handleEdit}
                 onCancel={
                   cancellingId === booking._id ? undefined : handleCancel
                 }

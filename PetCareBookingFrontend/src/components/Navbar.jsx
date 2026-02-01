@@ -22,6 +22,7 @@ export default function Navbar() {
     { to: "/booking", label: "จองบริการ" },
     { to: "/history", label: "ประวัติการจอง" },
     { to: "/add-pet", label: "เพิ่มสัตว์เลี้ยง" },
+    ...(user?.role === "admin" ? [{ to: "/services", label: "จัดการบริการ" }] : []),
   ];
 
   return (

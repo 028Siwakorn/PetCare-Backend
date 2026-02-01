@@ -15,9 +15,13 @@ export default function BookingForm({
   currentUser,
   pets = [],
   onSubmit,
+  onSubmitEdit,
+  initialBooking = null,
   loading = false,
   error: externalError,
 }) {
+  const isEdit = Boolean(initialBooking?._id);
+
   const [phoneNumber, setPhoneNumber] = useState("");
   const [petSelect, setPetSelect] = useState("");
   const [petNameCustom, setPetNameCustom] = useState("");
@@ -26,6 +30,26 @@ export default function BookingForm({
   const [errors, setErrors] = useState({});
 
   const petName = petSelect === OTHER_PET_VALUE ? petNameCustom.trim() : petSelect;
+
+  useEffect(() => {
+    if (initialBooking) {
+      setPhoneNumber(initialBooking.phoneNumber || "");
+      const petNameFromBooking = initialBooking.petName?.trim() || "";
+      const matchPet = pets.find((p) => p.name === petNameFromBooking);
+      if (matchPet) {
+        setPetSelect(matchPet.name);
+        setPetNameCustom("");
+      } else {
+        setPetSelect(OTHER_PET_VALUE);
+        setPetNameCustom(petNameFromBooking);
+      }
+      const dt = initialBooking.appointmentDateTime
+        ? new Date(initialBooking.appointmentDateTime)
+        : null;
+      setAppointmentDateTime(dt && !isNaN(dt.getTime()) ? dt.toISOString().slice(0, 16) : "");
+      setNotes(initialBooking.notes || "");
+    }
+  }, [initialBooking, pets]);
 
   useEffect(() => {
     if (selectedService) {
@@ -64,7 +88,7 @@ export default function BookingForm({
     const serviceId = selectedService._id != null
       ? (typeof selectedService._id === "string" ? selectedService._id : String(selectedService._id))
       : "";
-    onSubmit({
+    const body = {
       customerName: currentUser.username,
       owner: currentUser.id,
       phoneNumber: phoneNumber.trim(),
@@ -72,13 +96,25 @@ export default function BookingForm({
       appointmentDateTime: new Date(appointmentDateTime).toISOString(),
       serviceId,
       notes: notes.trim() || undefined,
-    });
+    };
+    if (isEdit && onSubmitEdit) {
+      onSubmitEdit(initialBooking._id, {
+        phoneNumber: body.phoneNumber,
+        petName: body.petName,
+        appointmentDateTime: body.appointmentDateTime,
+        serviceId: body.serviceId,
+        notes: body.notes,
+      });
+    } else {
+      onSubmit(body);
+    }
   };
 
   useEffect(() => {
+    if (initialBooking) return;
     if (pets.length > 0 && !petSelect) setPetSelect(pets[0].name);
     if (pets.length === 0 && !petSelect) setPetSelect(OTHER_PET_VALUE);
-  }, [pets]);
+  }, [pets, initialBooking, petSelect]);
 
   const minDateTime = () => {
     const d = new Date();
@@ -179,7 +215,7 @@ export default function BookingForm({
           loading={loading}
           disabled={!currentUser || !selectedService}
         >
-          ยืนยันการจอง
+          {isEdit ? "บันทึกการแก้ไข" : "ยืนยันการจอง"}
         </Button>
       </form>
     </Card>

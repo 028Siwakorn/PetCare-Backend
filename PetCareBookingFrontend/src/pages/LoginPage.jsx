@@ -25,7 +25,7 @@ export default function LoginPage() {
     login(username.trim(), password)
       .then((res) => {
         if (res.id && res.username && res.accessToken) {
-          authLogin(res);
+          authLogin({ ...res, role: res.role || "user" });
           navigate("/", { replace: true });
         } else {
           setError(res.message || "เข้าสู่ระบบไม่สำเร็จ");
