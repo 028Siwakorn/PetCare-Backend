@@ -7,18 +7,24 @@ import Card from "./Card";
  * BookingForm - ฟอร์มจองบริการ
  * Backend: customerName, phoneNumber, petName, appointmentDateTime, serviceId, owner, notes
  */
+const OTHER_PET_VALUE = "__other__";
+
 export default function BookingForm({
   selectedService,
   currentUser,
+  pets = [],
   onSubmit,
   loading = false,
   error: externalError,
 }) {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [petName, setPetName] = useState("");
+  const [petSelect, setPetSelect] = useState("");
+  const [petNameCustom, setPetNameCustom] = useState("");
   const [appointmentDateTime, setAppointmentDateTime] = useState("");
   const [notes, setNotes] = useState("");
   const [errors, setErrors] = useState({});
+
+  const petName = petSelect === OTHER_PET_VALUE ? petNameCustom.trim() : petSelect;
 
   useEffect(() => {
     if (selectedService) {
@@ -32,8 +38,8 @@ export default function BookingForm({
     if (!phoneRegex.test(phoneNumber.trim())) {
       next.phoneNumber = "เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก";
     }
-    if (!petName.trim()) {
-      next.petName = "กรุณากรอกชื่อสัตว์เลี้ยง";
+    if (!petName) {
+      next.petName = petSelect === OTHER_PET_VALUE ? "กรุณากรอกชื่อสัตว์เลี้ยง" : "กรุณาเลือกหรือกรอกชื่อสัตว์เลี้ยง";
     }
     const dt = new Date(appointmentDateTime);
     if (!appointmentDateTime || isNaN(dt.getTime())) {
@@ -54,16 +60,24 @@ export default function BookingForm({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
+    const serviceId = selectedService._id != null
+      ? (typeof selectedService._id === "string" ? selectedService._id : String(selectedService._id))
+      : "";
     onSubmit({
       customerName: currentUser.username,
       owner: currentUser.id,
       phoneNumber: phoneNumber.trim(),
       petName: petName.trim(),
       appointmentDateTime: new Date(appointmentDateTime).toISOString(),
-      serviceId: selectedService._id,
+      serviceId,
       notes: notes.trim() || undefined,
     });
   };
+
+  useEffect(() => {
+    if (pets.length > 0 && !petSelect) setPetSelect(pets[0].name);
+    if (pets.length === 0 && !petSelect) setPetSelect(OTHER_PET_VALUE);
+  }, [pets]);
 
   const minDateTime = () => {
     const d = new Date();
@@ -97,14 +111,38 @@ export default function BookingForm({
           error={errors.phoneNumber}
           maxLength={10}
         />
-        <Input
-          label="ชื่อสัตว์เลี้ยง"
-          type="text"
-          placeholder="เช่น บัดดี้"
-          value={petName}
-          onChange={(e) => setPetName(e.target.value)}
-          error={errors.petName}
-        />
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text font-medium">ชื่อสัตว์เลี้ยง</span>
+          </label>
+          <select
+            className="select select-bordered w-full"
+            value={petSelect}
+            onChange={(e) => setPetSelect(e.target.value)}
+          >
+            <option value="">-- เลือกหรือกรอกชื่อ --</option>
+            {pets.map((pet) => (
+              <option key={pet._id} value={pet.name}>
+                {pet.name} {pet.breed ? `(${pet.breed})` : ""}
+              </option>
+            ))}
+            <option value={OTHER_PET_VALUE}>กรอกชื่ออื่น...</option>
+          </select>
+          {petSelect === OTHER_PET_VALUE && (
+            <input
+              type="text"
+              className="input input-bordered w-full mt-2"
+              placeholder="เช่น บัดดี้"
+              value={petNameCustom}
+              onChange={(e) => setPetNameCustom(e.target.value)}
+            />
+          )}
+          {errors.petName && (
+            <label className="label">
+              <span className="label-text-alt text-error">{errors.petName}</span>
+            </label>
+          )}
+        </div>
         <Input
           label="วันและเวลานัด"
           type="datetime-local"

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getServices, createBooking } from "../services/api";
+import { getServices, getPets, createBooking } from "../services/api";
 import ServiceCard from "../components/ServiceCard";
 import BookingForm from "../components/BookingForm";
 
@@ -10,6 +10,7 @@ export default function BookingPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [services, setServices] = useState([]);
+  const [pets, setPets] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [loadingServices, setLoadingServices] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -22,7 +23,8 @@ export default function BookingPage() {
           setServices(res.data);
           const serviceId = location.state?.serviceId;
           if (serviceId) {
-            const svc = res.data.find((s) => s._id === serviceId);
+            const idStr = typeof serviceId === "string" ? serviceId : String(serviceId);
+            const svc = res.data.find((s) => (s._id != null ? String(s._id) : "") === idStr);
             if (svc) setSelectedService(svc);
           }
         }
@@ -30,6 +32,19 @@ export default function BookingPage() {
       .catch(() => setServices([]))
       .finally(() => setLoadingServices(false));
   }, [location.state?.serviceId]);
+
+  useEffect(() => {
+    if (!user?.id) {
+      setPets([]);
+      return;
+    }
+    getPets(user.id)
+      .then((res) => {
+        if (res.success && Array.isArray(res.data)) setPets(res.data);
+        else setPets([]);
+      })
+      .catch(() => setPets([]));
+  }, [user?.id]);
 
   const handleBookService = (service) => {
     setSelectedService(service);
@@ -96,7 +111,8 @@ export default function BookingPage() {
             <div className="lg:sticky lg:top-24">
               <BookingForm
                 selectedService={selectedService}
-                currentUser={user ? { id: user.id } : null}
+                currentUser={user ? { id: user.id, username: user.username } : null}
+                pets={pets}
                 onSubmit={handleSubmitBooking}
                 loading={submitLoading}
                 error={submitError}

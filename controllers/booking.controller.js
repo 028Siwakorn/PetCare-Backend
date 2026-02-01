@@ -6,12 +6,19 @@ exports.createBooking = async (req, res) => {
   try {
     const { customerName, phoneNumber, petName, appointmentDateTime, serviceId, owner, notes } = req.body;
 
-    // Verify that the service exists
-    const service = await ServiceModel.findById(serviceId);
+    const serviceIdStr = serviceId != null ? String(serviceId).trim() : "";
+    if (!serviceIdStr || !/^[0-9a-fA-F]{24}$/.test(serviceIdStr)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or missing service ID"
+      });
+    }
+
+    const service = await ServiceModel.findById(serviceIdStr);
     if (!service) {
       return res.status(404).json({
         success: false,
-        message: "Service not found"
+        message: "Service not found. Make sure the service exists in the same database (e.g. add services on the same backend you use for booking)."
       });
     }
 
@@ -29,7 +36,7 @@ exports.createBooking = async (req, res) => {
       phoneNumber,
       petName,
       appointmentDateTime,
-      serviceId,
+      serviceId: serviceIdStr,
       owner,
       notes,
       status: "pending"

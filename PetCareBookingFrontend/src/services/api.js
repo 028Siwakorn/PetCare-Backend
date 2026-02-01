@@ -29,6 +29,10 @@ export const cancelBooking = (id) =>
   api.put(`/bookings/${id}/cancel`).then((r) => r.data);
 export const deleteBooking = (id) => api.delete(`/bookings/${id}`).then((r) => r.data);
 
+// Pets (รายการสัตว์เลี้ยงของ user)
+export const getPets = (ownerId) =>
+  api.get("/pets", { params: { owner: ownerId } }).then((r) => r.data);
+
 // User auth
 export const register = (username, password) =>
   api.post("/user/register", { username, password }).then((r) => r.data);
