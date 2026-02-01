@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import Button from "../atoms/Button";
+import { useAuth } from "../context/AuthContext";
+import Button from "./Button";
 
 /**
- * Navbar - Mobile-first: drawer on small screens, inline on md+
+ * Navbar - แถบเมนูบน (มือถือใช้ drawer)
  */
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -47,7 +47,6 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Desktop nav */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-1">
           {navLinks.map(({ to, label }) => (
@@ -83,7 +82,6 @@ export default function Navbar() {
           </>
         )}
       </div>
-      {/* Drawer for mobile */}
       <input
         type="checkbox"
         id="drawer-nav"

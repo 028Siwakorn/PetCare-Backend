@@ -1,6 +1,5 @@
 /**
- * Reusable Card - Molecule
- * Mobile-first: stacks content, touch-friendly
+ * Card - การ์ดแสดงเนื้อหา ใช้ซ้ำได้
  */
 export default function Card({ children, className = "", noPadding = false }) {
   return (

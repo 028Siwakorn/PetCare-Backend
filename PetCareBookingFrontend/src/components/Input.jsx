@@ -1,6 +1,5 @@
 /**
- * Reusable Input - Atomic Component
- * Mobile-first: full width on small screens
+ * Input - ช่องกรอกข้อมูล ใช้ซ้ำได้
  */
 export default function Input({
   label,

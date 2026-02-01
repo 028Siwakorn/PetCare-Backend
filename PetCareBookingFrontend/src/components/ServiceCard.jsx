@@ -1,8 +1,8 @@
 import Card, { CardBody, CardTitle, CardActions } from "./Card";
-import Button from "../atoms/Button";
+import Button from "./Button";
 
 /**
- * ServiceCard - displays one service, links to booking
+ * ServiceCard - แสดงบริการหนึ่งรายการ พร้อมปุ่มจอง
  */
 export default function ServiceCard({ service, onBook }) {
   const { _id, name, description, price, imageUrl, duration, available } = service;

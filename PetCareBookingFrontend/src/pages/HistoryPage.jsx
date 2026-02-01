@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getUserBookings, updateBooking } from "../services/api";
-import BookingCard from "../components/molecules/BookingCard";
+import BookingCard from "../components/BookingCard";
 
 export default function HistoryPage() {
   const { user } = useAuth();

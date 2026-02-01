@@ -1,8 +1,7 @@
 /**
- * Reusable Button - Atomic Component
+ * Button - ปุ่มใช้ซ้ำได้
  * @param {string} variant - 'primary' | 'secondary' | 'outline' | 'ghost' | 'error'
  * @param {string} size - 'xs' | 'sm' | 'md' | 'lg'
- * @param {boolean} fullWidth - stretch on mobile
  */
 export default function Button({
   children,

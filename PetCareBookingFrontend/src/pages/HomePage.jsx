@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getServices } from "../services/api";
-import ServiceCard from "../components/molecules/ServiceCard";
-import Button from "../components/atoms/Button";
+import ServiceCard from "../components/ServiceCard";
+import Button from "../components/Button";
 
 export default function HomePage() {
   const navigate = useNavigate();

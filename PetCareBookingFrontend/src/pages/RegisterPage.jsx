@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../services/api";
-import Input from "../components/atoms/Input";
-import Button from "../components/atoms/Button";
-import Card from "../components/molecules/Card";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import Card from "../components/Card";
 
 export default function RegisterPage() {
   const navigate = useNavigate();

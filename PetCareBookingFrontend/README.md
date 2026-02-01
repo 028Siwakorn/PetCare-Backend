@@ -1,7 +1,7 @@
 # Pet Care Booking - Frontend
 
 เว็บแอป React สำหรับระบบจองบริการดูแลสัตว์เลี้ยง (Pet Care Booking)  
-ออกแบบแบบ **Mobile-First** และใช้ **Reusable Components** (Atomic Design)
+ออกแบบแบบ **Mobile-First** และใช้ **Components แบบธรรมดา** (โฟลเดอร์เดียว)
 
 ## Tech Stack
 
@@ -10,11 +10,18 @@
 - **Tailwind CSS + DaisyUI** – Styling แบบ Mobile-First
 - **Axios** – เรียก API กับ Backend
 
-## โครงสร้าง Component (Atomic)
+## โครงสร้าง Component
 
-- **Atoms**: `Button`, `Input`, `Badge`
-- **Molecules**: `Card`, `ServiceCard`, `BookingCard`
-- **Organisms**: `Navbar`, `BookingForm`
+โฟลเดอร์ `src/components/` เก็บ Component ไว้รวมกัน (แบบธรรมดา):
+
+- `Button.jsx` – ปุ่มใช้ซ้ำได้
+- `Input.jsx` – ช่องกรอกข้อมูล
+- `Badge.jsx` – แสดงสถานะ (pending, confirmed, completed, cancelled)
+- `Card.jsx` – การ์ดแสดงเนื้อหา (มี CardBody, CardTitle, CardActions)
+- `ServiceCard.jsx` – แสดงบริการหนึ่งรายการ พร้อมปุ่มจอง
+- `BookingCard.jsx` – แสดงการจองหนึ่งรายการในประวัติ
+- `Navbar.jsx` – แถบเมนูบน (มือถือใช้ drawer)
+- `BookingForm.jsx` – ฟอร์มจองบริการ
 
 ## การติดตั้งและรัน
 
@@ -55,7 +62,7 @@
 
 - `GET /api/v1/services` – รายการบริการ
 - `GET /api/v1/services/:id` – ข้อมูลบริการตาม ID
-- `POST /api/v1/bookings` – สร้างการจอง (owner, phoneNumber, petName, appointmentDateTime, serviceId, notes)
+- `POST /api/v1/bookings` – สร้างการจอง (customerName, owner, phoneNumber, petName, appointmentDateTime, serviceId, notes)
 - `GET /api/v1/bookings/user/:user` – ประวัติการจองของ user
 - `PUT /api/v1/bookings/:id/cancel` – ยกเลิกการจอง
 - `POST /api/v1/user/register` – สมัครสมาชิก

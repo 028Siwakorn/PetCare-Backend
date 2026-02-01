@@ -1,6 +1,5 @@
 /**
- * Reusable Badge - Atomic Component
- * Used for status (pending, confirmed, completed, cancelled)
+ * Badge - แสดงสถานะ (pending, confirmed, completed, cancelled)
  */
 export default function Badge({ children, status, className = "" }) {
   const statusStyles = {

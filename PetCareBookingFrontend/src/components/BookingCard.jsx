@@ -1,9 +1,9 @@
 import Card, { CardBody, CardTitle } from "./Card";
-import Badge from "../atoms/Badge";
-import Button from "../atoms/Button";
+import Badge from "./Badge";
+import Button from "./Button";
 
 /**
- * BookingCard - one booking in history list
+ * BookingCard - แสดงการจองหนึ่งรายการในประวัติ
  */
 export default function BookingCard({ booking, onCancel }) {
   const { _id, petName, appointmentDateTime, serviceId, status, customerName } = booking;

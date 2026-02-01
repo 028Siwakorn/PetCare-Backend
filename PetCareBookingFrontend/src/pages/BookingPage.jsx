@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getServices, createBooking } from "../services/api";
-import ServiceCard from "../components/molecules/ServiceCard";
-import BookingForm from "../components/organisms/BookingForm";
+import ServiceCard from "../components/ServiceCard";
+import BookingForm from "../components/BookingForm";
 
 export default function BookingPage() {
   const { user } = useAuth();

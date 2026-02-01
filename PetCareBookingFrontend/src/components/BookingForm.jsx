@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import Input from "../atoms/Input";
-import Button from "../atoms/Button";
-import Card from "../molecules/Card";
+import Input from "./Input";
+import Button from "./Button";
+import Card from "./Card";
 
 /**
- * BookingForm - Reusable form for creating a booking
+ * BookingForm - ฟอร์มจองบริการ
  * Backend: customerName, phoneNumber, petName, appointmentDateTime, serviceId, owner, notes
- * customerName = username ของ user ที่ล็อกอิน (match กับ backend แบบเดิม)
  */
 export default function BookingForm({
   selectedService,

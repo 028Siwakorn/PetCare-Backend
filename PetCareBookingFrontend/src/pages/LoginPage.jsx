@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { login } from "../services/api";
-import Input from "../components/atoms/Input";
-import Button from "../components/atoms/Button";
-import Card from "../components/molecules/Card";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import Card from "../components/Card";
 
 export default function LoginPage() {
   const { login: authLogin } = useAuth();
